@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
+  const [airData, setAirData] = useState([]);
+
+  useEffect(() => {
+    async function fetchAirData() {
+      const response = await axios.get('http://localhost:8000');
+      const { location, time, pm10, pm25, no2 } = response.data;
+      setAirData({ location, time, pm10, pm25, no2 });
+    }
+    fetchAirData();
+    console.log(airData)
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ul>
+        <li>위치 : {airData.location}</li>
+        <li>시각 : {airData.time}</li>
+        <li>pm10 : {airData.pm10}</li>
+        <li>pm2.5 : {airData.pm25}</li>
+        <li>no2 : {airData.no2}</li>
+      </ul>
     </div>
   );
 }
