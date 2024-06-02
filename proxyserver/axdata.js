@@ -4,7 +4,9 @@ const aqiUrl = require('./config/url');
 
 const axdata = async (stationName, callback) => {
     const url = aqiUrl.airUrl;
+    const tourUrl = aqiUrl.tourUrl;
     const ServiceKey = decodeURIComponent(serviceKey.publicPortalkey);
+    const ServiceTourKey = decodeURIComponent(serviceKey.publicTourKey); 
 
     try {
         const response = await axios.get(

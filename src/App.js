@@ -3,28 +3,50 @@ import axios from "axios";
 
 function App() {
   const [airData, setAirData] = useState([]);
+  const [tourData, setTourData] = useState([]);
 
   useEffect(() => {
-    async function fetchAirData() {
-      const response = await axios.get('http://localhost:8000');
-      const { location, time, pm10, pm25, no2 } = response.data;
-      setAirData({ location, time, pm10, pm25, no2 });
-    }
-    fetchAirData();
-    console.log(airData)
+    // async function fetchAirData() {
+    //   const response = await axios.get('http://localhost:8000');
+    //   const { location, time, pm10, pm25, no2 } = response.data;
+    //   setAirData({ location, time, pm10, pm25, no2 });
+    // }
+    // fetchAirData();
+    // console.log(airData)
   }, [])
+
+  useEffect(() => {
+    async function fetchTourData() {
+      const response = await axios.get('http://localhost:8000/tour');
+      setTourData(response.data);
+    }
+    fetchTourData();
+    
+  }, [])
+
+  useEffect(() => {
+    console.log(tourData, "tourData");
+  }, [tourData])
 
   return (
     <div className="App">
       <ul>
-        <li>위치 : {airData.location}</li>
-        <li>시각 : {airData.time}</li>
-        <li>pm10 : {airData.pm10}</li>
-        <li>pm2.5 : {airData.pm25}</li>
-        <li>no2 : {airData.no2}</li>
+        {tourData?.map((item, index) => (
+            <>
+              <li>
+                <img src={item.firstimage} />
+                <h3>{item.title}</h3>
+                <h4>주소 | {item.addr1} {item.addr2}</h4>
+                <h4></h4>
+              </li>
+              
+            </>
+          )
+        )}
       </ul>
     </div>
   );
 }
 
 export default App;
+
